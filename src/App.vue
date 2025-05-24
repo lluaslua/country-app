@@ -4,13 +4,24 @@ import Countries from './components/Countries.vue'
 import EditCountryModal from './components/EditCountryModal.vue'
 import SearchArea from './components/SearchArea.vue'
 import NewCountryModal from './components/NewCountryModal.vue'
-
+import CountryDetailsModal from './components/CountryDetailsModal.vue'
 
 const countries = ref([])
 const isModalOpen = ref(false)
 const newCountry = ref(null)
 const isAddModalOpen = ref(false) 
 const selectedCountry = ref(null)
+const isDetailModalOpen = ref(false)
+
+
+const detalhesAberto = ref(false);
+const paisSelecionado = ref(null);
+
+
+function handleOpenDetail(country) {
+  paisSelecionado.value = country;
+  detalhesAberto.value = true;
+}
 
 const fetchCountries = async () => {
   try {
@@ -57,6 +68,20 @@ const addNewCountry = (newCountry) => {
   countries.value.unshift(country)
   isAddModalOpen.value = false
 }
+
+
+const openDetailModal = (country) => {
+  selectedCountry.value = country
+  isDetailModalOpen.value = true
+}
+
+const showDetailsModal = ref(false)
+
+function openDetailsModal(country) {
+  selectedCountry.value = country
+  showDetailsModal.value = true
+}
+
 </script>
 
 <template>
@@ -68,6 +93,7 @@ const addNewCountry = (newCountry) => {
     :countries="countries"
     @open-modal="openModal"
     @delete-country="deleteCountry"
+    @open-details="openDetailsModal"
   />
       <EditCountryModal
         v-model:isOpen="isModalOpen"
@@ -78,6 +104,10 @@ const addNewCountry = (newCountry) => {
         v-model:isOpen="isAddModalOpen"
         @create-country="addNewCountry"
       />
+       <CountryDetailsModal
+  v-model:isOpen="showDetailsModal"
+  :country="selectedCountry"
+/>
     </div>
   </div>
 </template>

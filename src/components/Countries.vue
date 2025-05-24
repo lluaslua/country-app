@@ -46,9 +46,9 @@ onMounted(async () => {
                 <td class="px-4 py-2  whitespace-nowrap">{{ country.capital?.[0] }}</td>
                 <td class="px-4 py-2  whitespace-nowrap">{{ country.population.toLocaleString() }}</td>
                 <td class="px-4 py-2  whitespace-nowrap flex gap-1">
-    <button @click="emit('open-modal')" class="bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
+    <button @click="emit('open-modal')" class="cursor-pointer bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
       <img :src="pencil" alt="Edit" class="w-4 h-4 text-blue-300" />
-    </button><button @click="excludeCountry(country.cca3)" class="bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
+    </button><button @click="excludeCountry(country.cca3)" class="cursor-pointer bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
       <img :src="trash" alt="Delete" class="w-4 h-4 text-blue-300" />
     </button></td>
                 

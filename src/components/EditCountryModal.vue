@@ -20,7 +20,53 @@ const form = ref({
   flags: { png: '' }
 })
 
+const errors = ref({
+  officialName: false,
+  commonName: false,
+  area: false,
+  population: false,
+  region: false,
+  capital: false,
+  language: false,
+  currencies: false,
+  flag: false
+})
 
+const validateForm = () => {
+  let isValid = true
+  const newErrors = {
+    officialName: !form.value.officialName.trim(),
+    commonName: !form.value.commonName.trim(),
+    area: !form.value.area || isNaN(form.value.area) || form.value.area <= 0,
+    population: !form.value.population || isNaN(form.value.population) || form.value.population <= 0,
+    region: !form.value.region || form.value.region === 'Select a Region',
+    capital: !form.value.capital.trim(),
+    language: !form.value.language.trim(),
+    currencies: !form.value.currencies.trim(),
+    flag: !form.value.flags.png
+  }
+
+  errors.value = newErrors
+  isValid = !Object.values(newErrors).some(error => error)
+  return isValid
+}
+
+ 
+  
+  const updatedCountry = {
+    ...props.country,
+    name: {
+      official: form.value.officialName,
+      common: form.value.commonName
+    },
+    area: Number(form.value.area),
+    population: Number(form.value.population),
+    region: form.value.region,
+    capital: [form.value.capital],
+    languages: { [form.value.language]: form.value.language },
+    currencies: { [form.value.currencies]: { name: form.value.currencies } },
+    flags: { png: form.value.flags.png }
+  }
 
 function closeModal() {
   emit('update:isOpen', false)
@@ -47,6 +93,7 @@ watch(() => props.isOpen, (val) => {
 })
 
 const  saveEdit = () => {
+  if (!validateForm()) return
   const updatedCountry = {
     ...props.country,
     name: {
@@ -57,8 +104,8 @@ const  saveEdit = () => {
     population: Number(form.value.population),
     region: form.value.region,
     capital: [form.value.capital],
-    languages: { lang: form.value.language },
-    currencies: { cur: { name: form.value.currencies } },
+    languages: { [form.value.language]: form.value.language },
+    currencies: { [form.value.currencies]: { name: form.value.currencies } },
     flags: { png: form.value.flags.png }
   }
 
@@ -130,14 +177,18 @@ function handleFlagUpload(event) {
     <span class="text-sm text-gray-500">Upload flag (PNG ou JPG)</span>
   </div>
 
-                     <form action="" class="space-y-4">
+                     <form @submit.prevent="saveEdit" class="space-y-4">
                         <div class="flex gap-2">
                           <div class="flex-1">
-                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Official Name</label>
+                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Official Name
+                              <span v-if="errors.officialName" class="text-red-500 text-xs">*</span>
+                            </label>
                            <input type="text" v-model="form.officialName" id="official-name" class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
                           </div>
                           <div class="flex-1">
-                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Common Name</label>
+                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Common Name
+                              <span v-if="errors.officialName" class="text-red-500 text-xs">*</span>
+                            </label>
                            <input type="text" v-model="form.commonName" id="common-name" class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
                           </div>
                         </div>
@@ -146,11 +197,15 @@ function handleFlagUpload(event) {
 
                         <div class="flex gap-2">
                           <div class="flex-1">
-                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" min>Area(km²)</label>
+                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" min>Area(km²)
+                              <span v-if="errors.officialName" class="text-red-500 text-xs">*</span>
+                            </label>
                            <input type="number" v-model="form.area" id="Area" class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
                           </div>
                           <div class="flex-1">
-                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Population</label>
+                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Population
+                              <span v-if="errors.officialName" class="text-red-500 text-xs">*</span>
+                            </label>
                            <input type="number" v-model="form.population" id="Population" class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
                           </div>
                         </div>
@@ -159,9 +214,11 @@ function handleFlagUpload(event) {
 
                         <div class="flex gap-2">
                           <div class="flex-1">
-                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Region</label>
+                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Region
+                              <span v-if="errors.officialName" class="text-red-500 text-xs">*</span>
+                            </label>
                            <select v-model="form.region" class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option>Select a Region</option>
+                            <option disabled>Select a Region</option>
                             <option>Africa</option>
                             <option>Americas</option>
                             <option>Antarctica</option>
@@ -171,16 +228,22 @@ function handleFlagUpload(event) {
                           </select>
                           </div>
                           <div class="flex-1">
-                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Capital</label>
+                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Capital
+                              <span v-if="errors.officialName" class="text-red-500 text-xs">*</span>
+                            </label>
                            <input type="text" v-model="form.capital" id="Capital" class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
                           </div>
                         </div>
                         <div>
-                          <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Language</label>
+                          <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Language
+                            <span v-if="errors.officialName" class="text-red-500 text-xs">*</span>
+                          </label>
                          <input type="text" v-model="form.language" id="Language" class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
                         </div>
                         <div>
-                          <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Currencies</label>
+                          <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Currencies
+                            <span v-if="errors.officialName" class="text-red-500 text-xs">*</span>
+                          </label>
                          <input type="text" v-model="form.currencies" id="Currencies" class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
                         </div>
                      </form>

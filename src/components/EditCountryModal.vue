@@ -163,7 +163,7 @@ function handleFlagUpload(event) {
                            <select v-model="form.region" class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option>Select a Region</option>
                             <option>Africa</option>
-                            <option>America</option>
+                            <option>Americas</option>
                             <option>Antarctica</option>
                             <option>Asia</option>
                             <option>Europe</option>

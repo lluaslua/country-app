@@ -7,17 +7,17 @@ const props = defineProps({
   countries: Array
 })
 
-//////
+
 const emit = defineEmits(['open-modal', 'delete-country'])
 
 function excludeCountry(cca3) {
   emit('delete-country', cca3)
-} ////////
+} 
 </script>
 
 <template>
-  <div class="w-full m-auto ">
-    <table class="table-auto text-left border border-gray-200 text-white bg-[#101C3D] m-auto">
+  <div>
+    <table class="text-left border border-gray-200 text-white bg-[#101C3D]">
         <thead>
             <tr>
                 <th class="px-4 py-3 font-medium text-white text-left">Name</th>
@@ -36,10 +36,10 @@ function excludeCountry(cca3) {
                 <td class="px-4 py-2  whitespace-nowrap">{{ country.capital?.[0] }}</td>
                 <td class="px-4 py-2  whitespace-nowrap">{{ country.population.toLocaleString() }}</td>
                 <td class="px-4 py-2  whitespace-nowrap flex gap-1">
-    <button @click="() => emit('open-modal', country)" class="cursor-pointer bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
-      <img :src="pencil" alt="Edit" class="w-4 h-4 text-blue-300" />
-    </button><button @click="excludeCountry(country.cca3)" class="cursor-pointer bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
-      <img :src="trash" alt="Delete" class="w-4 h-4 text-blue-300" />
+    <button @click="() => emit('open-modal', country)" class="cursor-pointer bg-blue-900 hover:bg-blue-700 p-2 rounded-full w-8 h-8">
+      <img :src="pencil" alt="Edit" class="w-4 h-4 text-blue-300 w-4 h-4" />
+    </button><button @click="excludeCountry(country.cca3)" class="cursor-pointer bg-blue-900 hover:bg-blue-700 p-2 rounded-full w-8 h-8">
+      <img :src="trash" alt="Delete" class="w-4 h-4 text-blue-300 w-4 h-4" />
     </button></td>
                 
             </tr>

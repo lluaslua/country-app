@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import Countries from './components/Countries.vue'
 import EditCountryModal from './components/EditCountryModal.vue'
+import SearchArea from './components/SearchArea.vue'
 
 const countries = ref([])
 const isModalOpen = ref(false)
@@ -35,16 +36,20 @@ const updateCountry = (updatedCountry) => {
 </script>
 
 <template>
-  <div class="m-auto">
-    <Countries
-  :countries="countries"
-  @open-modal="openModal"
-  @delete-country="deleteCountry"
-/>
-    <EditCountryModal
-      v-model:isOpen="isModalOpen"
-      :country="selectedCountry"
-      @update-country="updateCountry"
-    />
+
+  <div class="flex flex-col items-center px-4 py-6">
+    <div class="flex flex-col justify-center">
+      <SearchArea/>
+      <Countries
+    :countries="countries"
+    @open-modal="openModal"
+    @delete-country="deleteCountry"
+  />
+      <EditCountryModal
+        v-model:isOpen="isModalOpen"
+        :country="selectedCountry"
+        @update-country="updateCountry"
+      />
+    </div>
   </div>
 </template>

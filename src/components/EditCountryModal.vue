@@ -58,7 +58,8 @@ const  saveEdit = () => {
     region: form.value.region,
     capital: [form.value.capital],
     languages: { lang: form.value.language },
-    currencies: { cur: { name: form.value.currencies } }
+    currencies: { cur: { name: form.value.currencies } },
+    flags: { png: form.value.flags.png }
   }
 
   emit('update-country', updatedCountry)

@@ -16,6 +16,9 @@ const fetchCountries = async () => {
   }
 }
 fetchCountries()
+const deleteCountry = (cca3) => {
+  countries.value = countries.value.filter(c => c.cca3 !== cca3)
+}
 
 const openModal = (country) => {
   selectedCountry.value = country
@@ -27,15 +30,17 @@ const updateCountry = (updatedCountry) => {
   if (index !== -1) {
     countries.value[index] = updatedCountry
   }
+  isModalOpen.value = false 
 }
 </script>
 
 <template>
   <div class="m-auto">
     <Countries
-      :countries="countries"
-      @open-modal="openModal"
-    />
+  :countries="countries"
+  @open-modal="openModal"
+  @delete-country="deleteCountry"
+/>
     <EditCountryModal
       v-model:isOpen="isModalOpen"
       :country="selectedCountry"

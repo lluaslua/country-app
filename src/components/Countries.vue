@@ -6,14 +6,13 @@ import trash from '../assets/trash.svg'
 const props = defineProps({
   countries: Array
 })
-const emit = defineEmits(['open-modal'])
+
+//////
+const emit = defineEmits(['open-modal', 'delete-country'])
 
 function excludeCountry(cca3) {
-  const index = props.countries.findIndex(p => p.cca3 === cca3);
-  if (index !== -1) {
-    props.countries.splice(index, 1); 
-  }
-}
+  emit('delete-country', cca3)
+} ////////
 </script>
 
 <template>

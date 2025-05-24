@@ -1,28 +1,19 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { defineProps, defineEmits } from 'vue'
 import pencil from '../assets/pencil.svg'
 import trash from '../assets/trash.svg'
 
-const countries = ref([])
-const population = ref([])
-
+const props = defineProps({
+  countries: Array
+})
 const emit = defineEmits(['open-modal'])
 
 function excludeCountry(cca3) {
-  const index = countries.value.findIndex(p => p.cca3 === cca3);
+  const index = props.countries.findIndex(p => p.cca3 === cca3);
   if (index !== -1) {
-    countries.value.splice(index, 1);
+    props.countries.splice(index, 1); 
   }
 }
-
-onMounted(async () => {
-  try {
-    const res = await fetch('https://restcountries.com/v3.1/all')
-    countries.value = await res.json()
-  } catch (error) {
-    console.error('Erro ao buscar países:', error)
-  }
-})
 </script>
 
 <template>
@@ -46,7 +37,7 @@ onMounted(async () => {
                 <td class="px-4 py-2  whitespace-nowrap">{{ country.capital?.[0] }}</td>
                 <td class="px-4 py-2  whitespace-nowrap">{{ country.population.toLocaleString() }}</td>
                 <td class="px-4 py-2  whitespace-nowrap flex gap-1">
-    <button @click="emit('open-modal')" class="cursor-pointer bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
+    <button @click="() => emit('open-modal', country)" class="cursor-pointer bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
       <img :src="pencil" alt="Edit" class="w-4 h-4 text-blue-300" />
     </button><button @click="excludeCountry(country.cca3)" class="cursor-pointer bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
       <img :src="trash" alt="Delete" class="w-4 h-4 text-blue-300" />

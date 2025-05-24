@@ -6,6 +6,8 @@ import trash from '../assets/trash.svg'
 const countries = ref([])
 const population = ref([])
 
+const emit = defineEmits(['open-modal'])
+
 function excludeCountry(cca3) {
   const index = countries.value.findIndex(p => p.cca3 === cca3);
   if (index !== -1) {
@@ -43,7 +45,8 @@ onMounted(async () => {
                 <td class="px-4 py-2  whitespace-nowrap">{{ country.region }}</td>
                 <td class="px-4 py-2  whitespace-nowrap">{{ country.capital?.[0] }}</td>
                 <td class="px-4 py-2  whitespace-nowrap">{{ country.population.toLocaleString() }}</td>
-                <td class="px-4 py-2  whitespace-nowrap flex gap-1"><button class="bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
+                <td class="px-4 py-2  whitespace-nowrap flex gap-1">
+    <button @click="emit('open-modal')" class="bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
       <img :src="pencil" alt="Edit" class="w-4 h-4 text-blue-300" />
     </button><button @click="excludeCountry(country.cca3)" class="bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
       <img :src="trash" alt="Delete" class="w-4 h-4 text-blue-300" />

@@ -6,6 +6,12 @@ import trash from '../assets/trash.svg'
 const countries = ref([])
 const population = ref([])
 
+function excludeCountry(cca3) {
+  const index = countries.value.findIndex(p => p.cca3 === cca3);
+  if (index !== -1) {
+    countries.value.splice(index, 1);
+  }
+}
 
 onMounted(async () => {
   try {
@@ -39,7 +45,7 @@ onMounted(async () => {
                 <td class="px-4 py-2  whitespace-nowrap">{{ country.population.toLocaleString() }}</td>
                 <td class="px-4 py-2  whitespace-nowrap flex gap-1"><button class="bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
       <img :src="pencil" alt="Edit" class="w-4 h-4 text-blue-300" />
-    </button><button class="bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
+    </button><button @click="excludeCountry(country.cca3)" class="bg-blue-900 hover:bg-blue-700 p-2 rounded-full">
       <img :src="trash" alt="Delete" class="w-4 h-4 text-blue-300" />
     </button></td>
                 

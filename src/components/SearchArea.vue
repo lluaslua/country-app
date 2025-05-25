@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
+import FilterButton from '../components/FilterButton.vue'
 
 const emit = defineEmits(['update:search'])
 
@@ -8,6 +9,8 @@ const searchText = ref('')
 watch(searchText, (val) => {
   emit('update:search', val)
 })
+
+
 
 </script>
 <template>
@@ -22,20 +25,9 @@ watch(searchText, (val) => {
         </svg>
         <input  v-model="searchText" type="text" placeholder="Search Countries" class="w-full outline-none bg-transparent text-white text-sm" />
       </div>
-      
         </div>
 
-
-         <button @click="$emit('open-add-modal')" id="dropdownDefault" data-dropdown-toggle="dropdown"
-    class="cursor-pointer text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-    type="button">
-    Filter by category
-    <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-    </svg>
-  </button>
-
+        <FilterButton/>
   
         <button @click="$emit('open-new-modal')" class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full whitespace-nowrap">
   Add New Country

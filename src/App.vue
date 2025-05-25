@@ -1,16 +1,16 @@
 <script setup>
-import { ref } from 'vue'
-import Countries from './components/Countries.vue'
+import { ref, onMounted, onBeforeMount } from 'vue'
+import Countries from './components/countries.vue'
 import EditCountryModal from './components/EditCountryModal.vue'
 import SearchArea from './components/SearchArea.vue'
 import NewCountryModal from './components/NewCountryModal.vue'
 import CountryDetailsModal from './components/CountryDetailsModal.vue'
+import FilterButton from './components/FilterButton.vue'
 
 const countries = ref([])
 const isModalOpen = ref(false)
 const isAddModalOpen = ref(false) 
 const selectedCountry = ref(null)
-const isDetailModalOpen = ref(false)
 
 const search = ref('')
 
@@ -72,6 +72,7 @@ function openDetailsModal(country) {
 
 <template>
 
+  
   <div class="flex flex-col items-center px-4 py-6">
     <div class="flex flex-col justify-center">
       <SearchArea v-model:search="search" @open-new-modal="isAddModalOpen = true"/>
@@ -94,7 +95,8 @@ function openDetailsModal(country) {
        <CountryDetailsModal
   v-model:isOpen="showDetailsModal"
   :country="selectedCountry"
-/>
-    </div>
-  </div>
+  />
+</div>
+</div>
+
 </template>

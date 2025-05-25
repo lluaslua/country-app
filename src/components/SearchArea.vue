@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue'
 import FilterButton from '../components/FilterButton.vue'
 
-const emit = defineEmits(['update:search'])
+const emit = defineEmits(['update:search', 'apply-filters'])
 
 const searchText = ref('')
 
@@ -27,7 +27,7 @@ watch(searchText, (val) => {
       </div>
         </div>
 
-        <FilterButton/>
+        <FilterButton @apply-filters="filters => emit('apply-filters', filters)"/>
   
         <button @click="$emit('open-new-modal')" class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full whitespace-nowrap">
   Add New Country

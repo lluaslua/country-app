@@ -3,6 +3,40 @@ import { ref } from 'vue'
 
 const isFilterOpen = ref(false)
 
+const emit = defineEmits(['apply-filters'])
+
+const selectedContinents = ref(new Set())
+const populationMin = ref(null)
+const populationMax = ref(null)
+
+const toggleContinent = (continent) => {
+  if (selectedContinents.value.has(continent)) {
+    selectedContinents.value.delete(continent)
+  } else {
+    selectedContinents.value.add(continent)
+  }
+}
+
+const applyFilters = () => {
+  emit('apply-filters', {
+    continents: [...selectedContinents.value],
+    populationMin: populationMin.value,
+    populationMax: populationMax.value
+  })
+  isFilterOpen.value = false
+}
+
+const resetFilters = () => {
+  selectedContinents.value.clear()
+  populationMin.value = null
+  populationMax.value = null
+  emit('apply-filters', {
+    continents: [],
+    populationMin: null,
+    populationMax: null
+  })
+}
+
 
 
 </script>
@@ -29,37 +63,37 @@ const isFilterOpen = ref(false)
       <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
         <li>
           <div class="flex items-center">
-            <input id="checkbox-item-1" type="checkbox" value="" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+            <input v-model="selectedContinents" @change="toggleContinent('Africa')" id="checkbox-item-1" type="checkbox" value="africa" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
             <label for="checkbox-item-1" class=" cursor-pointer ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Africa</label>
           </div>
         </li>
         <li>
           <div class="flex items-center">
-              <input checked id="checkbox-item-2" type="checkbox" value="" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+              <input v-model="selectedContinents" @change="toggleContinent('Americas')" id="checkbox-item-2" type="checkbox" value="americas" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
               <label for="checkbox-item-2" class="cursor-pointer ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Americas</label>
             </div>
         </li>
         <li>
           <div class="flex items-center">
-            <input id="checkbox-item-3" type="checkbox" value="" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+            <input v-model="selectedContinents" @change="toggleContinent('Antarctica')" id="checkbox-item-3" type="checkbox" value="antarctica" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
             <label for="checkbox-item-3" class="cursor-pointer ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Antarctica</label>
           </div>
         </li>
         <li>
           <div class="flex items-center">
-            <input id="checkbox-item-4" type="checkbox" value="" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+            <input v-model="selectedContinents" @change="toggleContinent('Asia')" id="checkbox-item-4" type="checkbox" value="asia" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
             <label for="checkbox-item-4" class="cursor-pointer ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Asia</label>
           </div>
         </li>
         <li>
           <div class="flex items-center">
-            <input id="checkbox-item-5" type="checkbox" value="" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+            <input v-model="selectedContinents" @change="toggleContinent('Europe')" id="checkbox-item-5" type="checkbox" value="europe" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
             <label for="checkbox-item-5" class="cursor-pointer ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Europe</label>
           </div>
         </li>
         <li>
           <div class="flex items-center">
-            <input id="checkbox-item-6" type="checkbox" value="" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+            <input v-model="selectedContinents" @change="toggleContinent('Oceania')" id="checkbox-item-6" type="checkbox" value="oceania" class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
             <label for="checkbox-item-6" class="cursor-pointer ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Oceania</label>
           </div>
         </li>
@@ -73,7 +107,7 @@ const isFilterOpen = ref(false)
               <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
               </div>
               <label for="text" class="block pl-1 text-sm font-light text-gray-900 dark:text-white">min</label>
-              <input name="min" type="number"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+              <input v-model.number="populationMin" name="min" type="number"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
          block w-full p-2.5 
          dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
@@ -83,7 +117,7 @@ const isFilterOpen = ref(false)
               <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
               </div>
               <label for="text" class="block pl-1 text-sm font-light text-gray-900 dark:text-white">max</label>
-              <input name="max" type="number"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+              <input v-model.number="populationMax" name="max" type="number"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
          block w-full p-2.5 
          dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
@@ -94,6 +128,10 @@ const isFilterOpen = ref(false)
       </div>
         </li>
       </ul>
+      <div class="p-2">
+          <button @click="applyFilters" type="button" class="cursor-pointer w-100 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Apply</button>
+          <button @click="resetFilters" class="underline text-blue-400 hover:text-blue-500 mb-2 ml-1 cursor-pointer">Clear Selected</button>
+      </div>
   </div>
 </div>
   </div>

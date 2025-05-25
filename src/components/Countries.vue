@@ -5,16 +5,24 @@ import trash from '../assets/trash.svg'
 
 const props = defineProps({
   countries: Array,
-  search: String
+  search: String,
+  filters: Object
 })
 
 const filteredCountries = computed(() => {
-  if (!props.search) return props.countries
-  return props.countries.filter(country =>
-    country.name.common.toLowerCase().includes(props.search.toLowerCase())
-  )
-})
+  return props.countries.filter(country => {
+    const matchesSearch = !props.search || country.name.common.toLowerCase().includes(props.search.toLowerCase())
 
+    const matchesContinent =
+      !props.filters.continents.length || props.filters.continents.includes(country.region)
+
+    const matchesPopulation =
+      (props.filters.populationMin == null || country.population >= props.filters.populationMin) &&
+      (props.filters.populationMax == null || country.population <= props.filters.populationMax)
+
+    return matchesSearch && matchesContinent && matchesPopulation
+  })
+})
 
 const emit = defineEmits(['open-modal', 'delete-country', 'open-details'])
 

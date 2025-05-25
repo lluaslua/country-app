@@ -14,6 +14,17 @@ const selectedCountry = ref(null)
 
 const search = ref('')
 
+const activeFilters = ref({
+  continents: [],
+  populationMin: null,
+  populationMax: null
+})
+
+const applyFilters = (filters) => {
+  activeFilters.value = filters
+}
+
+
 const fetchCountries = async () => {
   try {
     const res = await fetch('https://restcountries.com/v3.1/all')
@@ -75,14 +86,15 @@ function openDetailsModal(country) {
   
   <div class="flex flex-col items-center px-4 py-6">
     <div class="flex flex-col justify-center">
-      <SearchArea v-model:search="search" @open-new-modal="isAddModalOpen = true"/>
+      <SearchArea v-model:search="search" @open-new-modal="isAddModalOpen = true" @apply-filters="applyFilters"  @reset-filters="handleReset" />
       <Countries
-    :countries="countries"
-    @open-modal="openModal"
-    @delete-country="deleteCountry"
-    @open-details="openDetailsModal"
-    :search="search"
-  />
+  :countries="countries"
+  :search="search"
+  :filters="activeFilters"
+  @open-modal="openModal"
+  @delete-country="deleteCountry"
+  @open-details="openDetailsModal"
+/>
       <EditCountryModal
         v-model:isOpen="isModalOpen"
         :country="selectedCountry"

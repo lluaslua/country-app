@@ -2,3 +2,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+
+
+.bg-del-blue-dark    { background-color: #0D1B2A; }
+.bg-del-blue-mid     { background-color: #1B263B; }
+.bg-del-blue-light   { background-color: #415A77; }
+.bg-del-blue-light-2 { background-color: #778DA9; }
+.bg-del-beige        { background-color: #E0E1DD; }
+.bg-del-orange       { background-color: #F45B69; }
+
+
+.text-del-blue-dark    { color: #0D1B2A; }
+.text-del-blue-mid     { color: #1B263B; }
+.text-del-blue-light   { color: #415A77; }
+.text-del-blue-light-2 { color: #778DA9; }
+.text-del-beige        { color: #E0E1DD; }
+.text-del-orange       { color: #F45B69; }
+
+
+.border-del-blue-dark    { border-color: #0D1B2A; }
+.border-del-blue-mid     { border-color: #1B263B; }
+.border-del-blue-light   { border-color: #415A77; }
+.border-del-blue-light-2 { border-color: #778DA9; }
+.border-del-beige        { border-color: #E0E1DD; }
+.border-del-orange       { border-color: #F45B69; }

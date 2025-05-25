@@ -1,10 +1,18 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits, computed } from 'vue'
 import pencil from '../assets/pencil.svg'
 import trash from '../assets/trash.svg'
 
 const props = defineProps({
-  countries: Array
+  countries: Array,
+  search: String
+})
+
+const filteredCountries = computed(() => {
+  if (!props.search) return props.countries
+  return props.countries.filter(country =>
+    country.name.common.toLowerCase().includes(props.search.toLowerCase())
+  )
 })
 
 
@@ -35,7 +43,7 @@ function handleRowClick(country) {
         </thead>
         <tbody class="divide-y divide-gray-200">
             <tr 
-          v-for="country in countries" 
+          v-for="country in filteredCountries" 
           :key="country.cca3"
          @click="handleRowClick(country)"
           class="cursor-pointer hover:bg-blue-900/20 transition-colors"

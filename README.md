@@ -1,5 +1,52 @@
-# Vue 3 + Vite
+# Como Rodar o Projeto:
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Pré-requisitos:
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+- Node.js (v 16+)
+- npm instalado
+
+## Passos:
+
+### Passo 1:
+
+Clone o repositório:
+
+```powershell
+git clone https://github.com/lluaslua/country-app.git
+```
+
+### Passo 2:
+
+Entre na pasta do arquivo e instale as dependencias:
+
+```powershell
+npm install
+```
+
+## Passo 3:
+
+Rode localmente o servidor:
+
+```powershell
+npm run dev
+```
+
+## Passo 4:
+
+Coloque o endereço  http://localhost:5173/ no navegador ou coloque o fornecido pelo terminal.
+
+# Tecnologias utilizadas:
+
+Foram utilizadas as tecnologias:
+
+- [Vue.js 3](https://vuejs.org/)
+- [Vite](https://vitejs.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+
+# Pontos a serem melhorados:
+
+- Melhorias visuais
+- Resolução de Bugs visuais
+- Responsividade
+- Otimização do código
+- Experiência do usuário
